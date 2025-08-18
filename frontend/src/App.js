@@ -76,7 +76,6 @@ export default function App() {
       
       if (response.ok) {
         setCartItems(cartItems + 1);
-        // You could add a toast notification here
       }
     } catch (error) {
       console.error('Error adding to cart:', error);
@@ -85,63 +84,63 @@ export default function App() {
 
   const getBadgeStyle = (category) => {
     const styles = {
-      'Hood Badges': 'bg-mars-red text-pearl',
-      'Shift Knobs': 'bg-racing-green text-pearl', 
-      'Hood Crests': 'bg-warm-beige text-navy',
-      'Horn Grills': 'bg-navy text-pearl'
+      'Hood Badges': 'bg-mars-red text-pure-white',
+      'Shift Knobs': 'bg-neon-green text-pure-white', 
+      'Hood Crests': 'bg-gold-accent text-charcoal',
+      'Horn Grills': 'bg-electric-blue text-pure-white'
     };
-    return styles[category] || 'bg-matte-black text-pearl';
+    return styles[category] || 'bg-steel-gray text-pure-white';
   };
 
   const getStockStatus = (stock) => {
-    if (stock === -1) return { text: 'In Stock', color: 'text-racing-green' };
-    if (stock > 10) return { text: 'In Stock', color: 'text-racing-green' };
-    if (stock > 0) return { text: `Only ${stock} left`, color: 'text-warm-beige' };
+    if (stock === -1) return { text: 'In Stock', color: 'text-neon-green' };
+    if (stock > 10) return { text: 'In Stock', color: 'text-neon-green' };
+    if (stock > 0) return { text: `Only ${stock} left`, color: 'text-gold-accent' };
     return { text: 'Out of Stock', color: 'text-mars-red' };
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pearl via-pearl to-warm-beige">
-      {/* Grain Texture Overlay */}
-      <div className="fixed inset-0 opacity-25 pointer-events-none noise-texture z-0"></div>
+    <div className="min-h-screen bg-gradient-to-br from-deep-black via-charcoal to-graphite">
+      {/* Modern Grain Texture Overlay */}
+      <div className="fixed inset-0 opacity-30 pointer-events-none modern-grain z-0"></div>
       
       {/* Header */}
-      <header className="relative z-50 bg-navy/95 backdrop-blur-lg border-b border-navy/20 sticky top-0">
+      <header className="relative z-50 bg-charcoal/95 backdrop-blur-lg border-b border-steel-gray/30 sticky top-0">
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
-              <div className="w-12 h-12 bg-gradient-to-br from-mars-red to-racing-green rounded-full flex items-center justify-center">
-                <span className="text-pearl font-bold text-xl">AK</span>
+              <div className="w-12 h-12 bg-gradient-to-br from-mars-red to-amber rounded-full flex items-center justify-center neon-glow">
+                <span className="text-pure-white font-bold text-xl">AK</span>
               </div>
               <div>
-                <h1 className="text-pearl font-bold text-xl tracking-tight">Adam's Kustom Badges</h1>
-                <p className="text-pearl/70 text-xs font-medium tracking-wide">SINCE 1970S</p>
+                <h1 className="text-pure-white font-bold text-xl tracking-tight">Adam's Kustom Badges</h1>
+                <p className="text-silver text-xs font-medium tracking-wide">SINCE 1970S</p>
               </div>
             </div>
             
             <nav className="hidden md:flex items-center space-x-8">
-              <a href="#shop" className="text-pearl/90 hover:text-mars-red transition-colors duration-300 font-medium">Shop</a>
-              <a href="#collections" className="text-pearl/90 hover:text-mars-red transition-colors duration-300 font-medium">Collections</a>
-              <a href="#custom" className="text-pearl/90 hover:text-mars-red transition-colors duration-300 font-medium">Custom</a>
-              <a href="#about" className="text-pearl/90 hover:text-mars-red transition-colors duration-300 font-medium">About</a>
+              <a href="#shop" className="text-silver hover:text-mars-red transition-colors duration-300 font-medium">Shop</a>
+              <a href="#collections" className="text-silver hover:text-mars-red transition-colors duration-300 font-medium">Collections</a>
+              <a href="#custom" className="text-silver hover:text-mars-red transition-colors duration-300 font-medium">Custom</a>
+              <a href="#about" className="text-silver hover:text-mars-red transition-colors duration-300 font-medium">About</a>
             </nav>
 
             <div className="flex items-center space-x-4">
-              <Button variant="ghost" size="sm" className="text-pearl hover:text-mars-red hover:bg-pearl/10">
+              <Button variant="ghost" size="sm" className="text-silver hover:text-mars-red hover:bg-steel-gray/20">
                 <Search className="h-5 w-5" />
               </Button>
-              <Button variant="ghost" size="sm" className="text-pearl hover:text-mars-red hover:bg-pearl/10">
+              <Button variant="ghost" size="sm" className="text-silver hover:text-mars-red hover:bg-steel-gray/20">
                 <User className="h-5 w-5" />
               </Button>
-              <Button variant="ghost" size="sm" className="text-pearl hover:text-mars-red hover:bg-pearl/10 relative">
+              <Button variant="ghost" size="sm" className="text-silver hover:text-mars-red hover:bg-steel-gray/20 relative">
                 <ShoppingCart className="h-5 w-5" />
                 {cartItems > 0 && (
-                  <span className="absolute -top-2 -right-2 bg-mars-red text-pearl text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">
+                  <span className="absolute -top-2 -right-2 bg-mars-red text-pure-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold neon-glow">
                     {cartItems}
                   </span>
                 )}
               </Button>
-              <Button variant="ghost" size="sm" className="md:hidden text-pearl">
+              <Button variant="ghost" size="sm" className="md:hidden text-silver">
                 <Menu className="h-5 w-5" />
               </Button>
             </div>
@@ -149,46 +148,57 @@ export default function App() {
         </div>
       </header>
 
-      {/* Hero Section */}
-      <section className="relative z-10 py-24 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-navy/90 via-navy/70 to-racing-green/80"></div>
+      {/* Hero Section with Custom Shift Knob Background */}
+      <section className="relative z-10 py-32 overflow-hidden min-h-[80vh] flex items-center">
+        {/* Hero Background Image */}
         <div className="absolute inset-0">
+          <img 
+            src="/hero-shift-knob.png" 
+            alt="Premium VW Shift Knob" 
+            className="w-full h-full object-cover opacity-40"
+          />
+        </div>
+        
+        {/* Classic Beetle Background (Secondary Layer) */}
+        <div className="absolute inset-0 opacity-20">
           <img 
             src="https://images.unsplash.com/photo-1639164889329-874d81d027ff" 
             alt="Classic VW Beetle" 
-            className="w-full h-full object-cover opacity-60"
+            className="w-full h-full object-cover"
           />
         </div>
+        
+        {/* Hero Gradient Overlay */}
+        <div className="absolute inset-0 hero-gradient-dark"></div>
         
         <div className="relative z-20 container mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div className="text-center lg:text-left">
-              <Badge className="mb-6 bg-mars-red/20 text-mars-red border-mars-red/30 px-4 py-2 text-sm font-bold tracking-wide uppercase">
+              <div className="modern-badge mb-6">
                 Legendary Since 1970s
-              </Badge>
+              </div>
               
-              <h1 className="text-5xl lg:text-7xl font-bold text-pearl mb-6 leading-tight">
-                Authentic 
-                <span className="block text-mars-red italic">VW Beetle</span>
-                <span className="block text-4xl lg:text-5xl">Badges</span>
+              <h1 className="text-6xl lg:text-8xl font-bold mb-8 leading-tight hero-title-dark">
+                Premium 
+                <span className="block accent-text-dark italic">VW Beetle</span>
+                <span className="block text-5xl lg:text-6xl">Badges</span>
               </h1>
               
-              <p className="text-xl text-pearl/90 mb-8 leading-relaxed max-w-lg">
-                Discover {products.length}+ handcrafted badges and accessories for your classic Volkswagen Beetle. Premium quality, authentic designs.
+              <p className="text-xl text-silver mb-10 leading-relaxed max-w-lg">
+                Discover {products.length}+ handcrafted badges and accessories for your classic Volkswagen Beetle. Premium quality, authentic designs, modern craftsmanship.
               </p>
               
-              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                <Button 
-                  size="lg" 
-                  className="bg-mars-red hover:bg-mars-red/90 text-pearl px-8 py-4 text-lg font-bold tracking-wide transition-all duration-300 hover:scale-105 shadow-2xl"
+              <div className="flex flex-col sm:flex-row gap-6 justify-center lg:justify-start">
+                <button 
+                  className="btn-premium-dark"
                   onClick={() => document.getElementById('products').scrollIntoView({ behavior: 'smooth' })}
                 >
-                  Shop Collection <ArrowRight className="ml-2 h-5 w-5" />
-                </Button>
+                  Explore Collection <ArrowRight className="ml-3 h-6 w-6" />
+                </button>
                 <Button 
                   variant="outline" 
                   size="lg" 
-                  className="border-pearl text-pearl hover:bg-pearl hover:text-navy px-8 py-4 text-lg font-bold tracking-wide transition-all duration-300"
+                  className="border-silver text-silver hover:bg-silver hover:text-charcoal px-8 py-4 text-lg font-bold tracking-wide transition-all duration-300 backdrop-blur-sm"
                 >
                   Custom Design
                 </Button>
@@ -196,10 +206,10 @@ export default function App() {
             </div>
             
             <div className="relative">
-              <div className="relative w-80 h-80 mx-auto lg:w-96 lg:h-96">
-                <div className="absolute inset-0 bg-gradient-to-br from-mars-red/30 to-racing-green/30 rounded-full blur-3xl"></div>
-                <div className="relative bg-pearl/10 backdrop-blur-sm rounded-full border border-pearl/20 w-full h-full flex items-center justify-center">
-                  <div className="text-8xl lg:text-9xl text-pearl opacity-40">🚗</div>
+              <div className="relative w-96 h-96 mx-auto lg:w-[500px] lg:h-[500px]">
+                <div className="absolute inset-0 bg-gradient-to-br from-mars-red/20 to-amber/20 rounded-full blur-3xl"></div>
+                <div className="relative glass-effect-dark rounded-full w-full h-full flex items-center justify-center border-2 border-steel-gray">
+                  <div className="text-9xl lg:text-[12rem] text-silver opacity-30">🚗</div>
                 </div>
               </div>
             </div>
@@ -207,153 +217,153 @@ export default function App() {
         </div>
       </section>
 
-      {/* Trust Indicators */}
-      <section className="relative z-10 py-16 bg-matte-black">
+      {/* Modern Trust Indicators */}
+      <section className="relative z-10 py-20 bg-graphite/50 backdrop-blur-sm">
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
             <div className="flex flex-col items-center">
-              <div className="w-16 h-16 bg-mars-red/20 rounded-full flex items-center justify-center mb-4">
-                <Award className="h-8 w-8 text-mars-red" />
+              <div className="w-20 h-20 bg-gradient-to-br from-mars-red/20 to-mars-red/10 rounded-full flex items-center justify-center mb-6 border border-mars-red/30">
+                <Award className="h-10 w-10 text-mars-red" />
               </div>
-              <h3 className="text-pearl font-bold text-lg mb-2">Premium Quality</h3>
-              <p className="text-pearl/70 text-sm">Handcrafted with precision</p>
+              <h3 className="text-pure-white font-bold text-lg mb-2">Premium Quality</h3>
+              <p className="text-silver text-sm">Handcrafted precision</p>
             </div>
             <div className="flex flex-col items-center">
-              <div className="w-16 h-16 bg-racing-green/20 rounded-full flex items-center justify-center mb-4">
-                <Shield className="h-8 w-8 text-racing-green" />
+              <div className="w-20 h-20 bg-gradient-to-br from-neon-green/20 to-neon-green/10 rounded-full flex items-center justify-center mb-6 border border-neon-green/30">
+                <Shield className="h-10 w-10 text-neon-green" />
               </div>
-              <h3 className="text-pearl font-bold text-lg mb-2">Authentic Fit</h3>
-              <p className="text-pearl/70 text-sm">Fits like original VW parts</p>
+              <h3 className="text-pure-white font-bold text-lg mb-2">Authentic Fit</h3>
+              <p className="text-silver text-sm">Original VW compatibility</p>
             </div>
             <div className="flex flex-col items-center">
-              <div className="w-16 h-16 bg-warm-beige/20 rounded-full flex items-center justify-center mb-4">
-                <Zap className="h-8 w-8 text-warm-beige" />
+              <div className="w-20 h-20 bg-gradient-to-br from-gold-accent/20 to-gold-accent/10 rounded-full flex items-center justify-center mb-6 border border-gold-accent/30">
+                <Zap className="h-10 w-10 text-gold-accent" />
               </div>
-              <h3 className="text-pearl font-bold text-lg mb-2">Fast Shipping</h3>
-              <p className="text-pearl/70 text-sm">2-3 days delivery</p>
+              <h3 className="text-pure-white font-bold text-lg mb-2">Fast Shipping</h3>
+              <p className="text-silver text-sm">2-3 days delivery</p>
             </div>
             <div className="flex flex-col items-center">
-              <div className="w-16 h-16 bg-mars-red/20 rounded-full flex items-center justify-center mb-4">
-                <Star className="h-8 w-8 text-mars-red" />
+              <div className="w-20 h-20 bg-gradient-to-br from-electric-blue/20 to-electric-blue/10 rounded-full flex items-center justify-center mb-6 border border-electric-blue/30">
+                <Star className="h-10 w-10 text-electric-blue" />
               </div>
-              <h3 className="text-pearl font-bold text-lg mb-2">5,000+ Reviews</h3>
-              <p className="text-pearl/70 text-sm">4.8/5 customer rating</p>
+              <h3 className="text-pure-white font-bold text-lg mb-2">5,000+ Reviews</h3>
+              <p className="text-silver text-sm">4.8/5 customer rating</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Product Catalog */}
-      <section id="products" className="relative z-10 py-24 bg-gradient-to-b from-pearl to-warm-beige">
+      {/* Modern Product Catalog */}
+      <section id="products" className="relative z-10 py-24 bg-gradient-to-b from-charcoal to-graphite">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
-            <Badge className="mb-4 bg-navy/10 text-navy border-navy/20 px-4 py-2 font-bold tracking-wide uppercase">
+            <div className="modern-badge mb-6">
               Our Complete Collection
-            </Badge>
-            <h2 className="text-4xl lg:text-5xl font-bold text-navy mb-6">
-              Premium VW Beetle 
-              <span className="text-mars-red italic"> Badges</span>
+            </div>
+            <h2 className="text-5xl lg:text-6xl font-bold mb-8 hero-title-dark">
+              Authentic VW Beetle 
+              <span className="accent-text-dark italic block"> Accessories</span>
             </h2>
-            <p className="text-xl text-navy/70 max-w-2xl mx-auto mb-8">
-              Authentic badges, shift knobs, and accessories crafted for the true VW enthusiast.
+            <p className="text-xl text-silver max-w-3xl mx-auto mb-10 leading-relaxed">
+              Premium badges, shift knobs, and accessories crafted for the true VW enthusiast who demands perfection.
             </p>
 
-            {/* Search and Filter */}
-            <div className="flex flex-col md:flex-row gap-4 justify-center items-center max-w-2xl mx-auto">
+            {/* Modern Search and Filter */}
+            <div className="flex flex-col md:flex-row gap-6 justify-center items-center max-w-2xl mx-auto">
               <div className="relative flex-1 w-full">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-navy/50 h-5 w-5" />
+                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-silver h-5 w-5" />
                 <Input
                   placeholder="Search products..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10 bg-white border-navy/20 text-navy placeholder:text-navy/50"
+                  className="pl-12 bg-steel-gray/50 border-steel-gray text-pure-white placeholder:text-silver backdrop-blur-sm h-12"
                 />
               </div>
               <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-                <SelectTrigger className="w-full md:w-48 bg-white border-navy/20 text-navy">
+                <SelectTrigger className="w-full md:w-56 bg-steel-gray/50 border-steel-gray text-pure-white backdrop-blur-sm h-12">
                   <Filter className="h-4 w-4 mr-2" />
                   <SelectValue placeholder="All Categories" />
                 </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Categories</SelectItem>
+                <SelectContent className="bg-graphite border-steel-gray">
+                  <SelectItem value="all" className="text-pure-white hover:bg-steel-gray">All Categories</SelectItem>
                   {categories.map(category => (
-                    <SelectItem key={category} value={category}>{category}</SelectItem>
+                    <SelectItem key={category} value={category} className="text-pure-white hover:bg-steel-gray">{category}</SelectItem>
                   ))}
                 </SelectContent>
               </Select>
             </div>
           </div>
 
-          {/* Products Grid */}
+          {/* Modern Products Grid */}
           {loading ? (
-            <div className="text-center py-16">
-              <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-navy"></div>
-              <p className="text-navy/70 mt-4">Loading products...</p>
+            <div className="text-center py-20">
+              <div className="inline-block animate-spin rounded-full h-16 w-16 border-b-2 border-mars-red"></div>
+              <p className="text-silver mt-6 text-lg">Loading premium products...</p>
             </div>
           ) : products.length === 0 ? (
-            <div className="text-center py-16">
-              <p className="text-navy/70 text-lg">No products found matching your criteria.</p>
+            <div className="text-center py-20">
+              <p className="text-silver text-xl">No products found matching your criteria.</p>
             </div>
           ) : (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
               {products.map((product) => {
                 const stockStatus = getStockStatus(product.stock);
                 return (
-                  <Card key={product.id} className="group bg-white/80 backdrop-blur-sm border-0 shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-105 overflow-hidden">
+                  <Card key={product.id} className="product-card-dark group overflow-hidden">
                     <div className="relative overflow-hidden">
                       <img 
                         src={product.image}
                         alt={product.name}
-                        className="w-full h-64 object-contain bg-gray-50 group-hover:scale-110 transition-transform duration-700 p-4"
+                        className="w-full h-72 object-contain bg-steel-gray/20 group-hover:scale-110 transition-transform duration-700 p-6"
                         onError={(e) => {
                           e.target.style.display = 'none';
-                          e.target.parentElement.innerHTML = '<div class="w-full h-64 bg-gray-100 flex items-center justify-center text-gray-400">Image not available</div>';
+                          e.target.parentElement.innerHTML = '<div class="w-full h-72 bg-steel-gray/20 flex items-center justify-center text-silver">Image not available</div>';
                         }}
                       />
                       <div className="absolute top-4 left-4">
-                        <Badge className={`px-3 py-1 text-xs font-bold tracking-wide uppercase ${getBadgeStyle(product.category)}`}>
+                        <Badge className={`px-4 py-2 text-xs font-bold tracking-wide uppercase ${getBadgeStyle(product.category)}`}>
                           {product.category}
                         </Badge>
                       </div>
                       <Button
                         variant="ghost"
                         size="sm"
-                        className="absolute top-4 right-4 text-matte-black hover:text-mars-red transition-colors duration-300"
+                        className="absolute top-4 right-4 text-silver hover:text-mars-red transition-colors duration-300"
                         onClick={() => toggleFavorite(product.id)}
                       >
-                        <Heart className={`h-5 w-5 ${favorites.has(product.id) ? 'fill-current text-mars-red' : ''}`} />
+                        <Heart className={`h-6 w-6 ${favorites.has(product.id) ? 'fill-current text-mars-red' : ''}`} />
                       </Button>
                     </div>
                     
-                    <CardHeader className="pb-2">
-                      <div className="flex items-center justify-between mb-2">
+                    <CardHeader className="pb-3">
+                      <div className="flex items-center justify-between mb-3">
                         <div className="flex items-center space-x-1">
                           {[...Array(5)].map((_, i) => (
                             <Star 
                               key={i} 
-                              className={`h-4 w-4 ${i < Math.floor(product.rating) ? 'text-warm-beige fill-current' : 'text-gray-300'}`} 
+                              className={`h-4 w-4 ${i < Math.floor(product.rating) ? 'text-gold-accent fill-current' : 'text-steel-gray'}`} 
                             />
                           ))}
-                          <span className="text-sm text-navy/70 ml-2">({product.reviews})</span>
+                          <span className="text-sm text-silver ml-2">({product.reviews})</span>
                         </div>
                       </div>
-                      <CardTitle className="text-lg font-bold text-navy group-hover:text-mars-red transition-colors duration-300 line-clamp-2">
+                      <CardTitle className="text-lg font-bold text-pure-white group-hover:text-mars-red transition-colors duration-300 line-clamp-2">
                         {product.name}
                       </CardTitle>
-                      <p className="text-sm text-navy/70 line-clamp-2">{product.description}</p>
+                      <p className="text-sm text-silver line-clamp-2 leading-relaxed">{product.description}</p>
                       <p className={`text-sm font-medium ${stockStatus.color}`}>
                         {stockStatus.text}
                       </p>
                     </CardHeader>
                     
                     <CardContent className="pt-0">
-                      <div className="flex items-center justify-between mb-4">
-                        <div className="flex items-center space-x-2">
-                          <span className="text-2xl font-bold text-navy">${product.price}</span>
+                      <div className="flex items-center justify-between mb-6">
+                        <div className="flex items-center space-x-3">
+                          <span className="text-2xl font-bold text-pure-white">${product.price}</span>
                           {product.original_price && (
                             <>
-                              <span className="text-lg text-navy/50 line-through">${product.original_price}</span>
-                              <Badge className="bg-mars-red/10 text-mars-red text-xs">
+                              <span className="text-lg text-silver line-through">${product.original_price}</span>
+                              <Badge className="bg-mars-red/20 text-mars-red text-xs border border-mars-red/30">
                                 Save ${(product.original_price - product.price).toFixed(2)}
                               </Badge>
                             </>
@@ -362,7 +372,7 @@ export default function App() {
                       </div>
                       
                       <Button 
-                        className="w-full bg-navy hover:bg-mars-red text-pearl font-bold py-3 transition-all duration-300 hover:scale-105 shadow-lg"
+                        className="w-full bg-gradient-to-r from-mars-red to-amber text-pure-white font-bold py-3 transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl"
                         onClick={() => addToCart(product.id)}
                         disabled={product.stock === 0}
                       >
@@ -377,11 +387,11 @@ export default function App() {
           )}
 
           {products.length > 0 && (
-            <div className="text-center mt-12">
-              <p className="text-navy/70 mb-4">Showing {products.length} products</p>
+            <div className="text-center mt-16">
+              <p className="text-silver mb-6">Showing {products.length} premium products</p>
               <Button 
                 variant="outline" 
-                className="border-navy text-navy hover:bg-navy hover:text-pearl px-8 py-4 text-lg font-bold tracking-wide transition-all duration-300"
+                className="border-silver text-silver hover:bg-silver hover:text-charcoal px-10 py-4 text-lg font-bold tracking-wide transition-all duration-300"
                 onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
               >
                 Back to Top <ArrowRight className="ml-2 h-5 w-5" />
@@ -391,9 +401,9 @@ export default function App() {
         </div>
       </section>
 
-      {/* Call to Action */}
-      <section className="relative z-10 py-24 bg-gradient-to-r from-navy via-matte-black to-racing-green overflow-hidden">
-        <div className="absolute inset-0 opacity-20">
+      {/* Modern Call to Action */}
+      <section className="relative z-10 py-28 bg-gradient-to-r from-deep-black via-charcoal to-graphite overflow-hidden">
+        <div className="absolute inset-0 opacity-30">
           <img 
             src="https://images.unsplash.com/photo-1617829590022-a0b870857b6e" 
             alt="Classic Red VW Beetle" 
@@ -402,67 +412,66 @@ export default function App() {
         </div>
         
         <div className="relative z-20 container mx-auto px-6 text-center">
-          <Badge className="mb-6 bg-mars-red/20 text-mars-red border-mars-red/30 px-6 py-3 text-lg font-bold tracking-wide uppercase">
-            Ready to Transform Your Beetle?
-          </Badge>
+          <div className="modern-badge mb-8">
+            Transform Your Beetle
+          </div>
           
-          <h2 className="text-4xl lg:text-6xl font-bold text-pearl mb-8 leading-tight">
+          <h2 className="text-5xl lg:text-7xl font-bold mb-10 leading-tight hero-title-dark">
             Your Perfect Badge
-            <span className="block text-mars-red italic">Awaits</span>
+            <span className="block accent-text-dark italic">Awaits</span>
           </h2>
           
-          <p className="text-xl text-pearl/90 mb-12 max-w-3xl mx-auto leading-relaxed">
-            Join thousands of VW Beetle enthusiasts who've transformed their rides with our authentic badges. 
-            Premium quality, perfect fit, legendary craftsmanship.
+          <p className="text-xl text-silver mb-16 max-w-4xl mx-auto leading-relaxed">
+            Join thousands of VW Beetle enthusiasts who've transformed their rides with our premium badges. 
+            Exceptional quality, perfect fit, legendary craftsmanship since the 1970s.
           </p>
           
-          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-            <Button 
-              size="lg" 
-              className="bg-mars-red hover:bg-mars-red/90 text-pearl px-12 py-6 text-xl font-bold tracking-wide transition-all duration-300 hover:scale-110 shadow-2xl"
+          <div className="flex flex-col sm:flex-row gap-8 justify-center items-center">
+            <button 
+              className="btn-premium-dark text-xl px-16 py-6"
               onClick={() => document.getElementById('products').scrollIntoView({ behavior: 'smooth' })}
             >
               Browse Collection
-              <ArrowRight className="ml-3 h-6 w-6" />
-            </Button>
+              <ArrowRight className="ml-4 h-7 w-7" />
+            </button>
             
-            <div className="flex items-center space-x-4 text-pearl/80">
-              <div className="flex -space-x-2">
+            <div className="flex items-center space-x-6 text-silver">
+              <div className="flex -space-x-3">
                 {[1,2,3,4].map(i => (
-                  <div key={i} className="w-10 h-10 rounded-full bg-gradient-to-br from-mars-red to-racing-green border-2 border-pearl"></div>
+                  <div key={i} className="w-12 h-12 rounded-full bg-gradient-to-br from-mars-red to-amber border-2 border-charcoal neon-glow"></div>
                 ))}
               </div>
               <div className="text-left">
-                <p className="text-sm font-bold">5,000+ Happy Customers</p>
-                <p className="text-xs">Join the family</p>
+                <p className="text-lg font-bold text-pure-white">5,000+ Happy Customers</p>
+                <p className="text-sm">Join the premium family</p>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="relative z-10 bg-matte-black py-16 border-t border-pearl/10">
+      {/* Modern Footer */}
+      <footer className="relative z-10 bg-deep-black py-20 border-t border-steel-gray/20">
         <div className="container mx-auto px-6">
           <div className="grid md:grid-cols-4 gap-12">
             <div>
-              <div className="flex items-center space-x-3 mb-6">
-                <div className="w-10 h-10 bg-gradient-to-br from-mars-red to-racing-green rounded-full flex items-center justify-center">
-                  <span className="text-pearl font-bold">AK</span>
+              <div className="flex items-center space-x-4 mb-8">
+                <div className="w-12 h-12 bg-gradient-to-br from-mars-red to-amber rounded-full flex items-center justify-center neon-glow">
+                  <span className="text-pure-white font-bold text-xl">AK</span>
                 </div>
                 <div>
-                  <h3 className="text-pearl font-bold text-lg">Adam's Kustom Badges</h3>
-                  <p className="text-pearl/60 text-xs">SINCE 1970S</p>
+                  <h3 className="text-pure-white font-bold text-lg">Adam's Kustom Badges</h3>
+                  <p className="text-silver text-xs">SINCE 1970S</p>
                 </div>
               </div>
-              <p className="text-pearl/70 mb-6 leading-relaxed">
-                Crafting premium badges for Volkswagen Beetle enthusiasts who demand authenticity and quality.
+              <p className="text-silver mb-8 leading-relaxed">
+                Crafting premium badges for Volkswagen Beetle enthusiasts who demand authenticity, quality, and style.
               </p>
             </div>
             
             <div>
-              <h4 className="text-pearl font-bold text-lg mb-6">Categories</h4>
-              <div className="space-y-3">
+              <h4 className="text-pure-white font-bold text-lg mb-8">Categories</h4>
+              <div className="space-y-4">
                 {categories.slice(0, 4).map(category => (
                   <button 
                     key={category}
@@ -470,7 +479,7 @@ export default function App() {
                       setSelectedCategory(category);
                       document.getElementById('products').scrollIntoView({ behavior: 'smooth' });
                     }}
-                    className="block text-pearl/70 hover:text-mars-red transition-colors text-left"
+                    className="block text-silver hover:text-mars-red transition-colors text-left"
                   >
                     {category}
                   </button>
@@ -479,34 +488,34 @@ export default function App() {
             </div>
             
             <div>
-              <h4 className="text-pearl font-bold text-lg mb-6">Support</h4>
-              <div className="space-y-3">
-                <a href="#" className="block text-pearl/70 hover:text-mars-red transition-colors">Fitment Guide</a>
-                <a href="#" className="block text-pearl/70 hover:text-mars-red transition-colors">Installation</a>
-                <a href="#" className="block text-pearl/70 hover:text-mars-red transition-colors">Warranty</a>
-                <a href="#" className="block text-pearl/70 hover:text-mars-red transition-colors">Returns</a>
+              <h4 className="text-pure-white font-bold text-lg mb-8">Support</h4>
+              <div className="space-y-4">
+                <a href="#" className="block text-silver hover:text-mars-red transition-colors">Fitment Guide</a>
+                <a href="#" className="block text-silver hover:text-mars-red transition-colors">Installation</a>
+                <a href="#" className="block text-silver hover:text-mars-red transition-colors">Warranty</a>
+                <a href="#" className="block text-silver hover:text-mars-red transition-colors">Returns</a>
               </div>
             </div>
             
             <div>
-              <h4 className="text-pearl font-bold text-lg mb-6">Newsletter</h4>
-              <p className="text-pearl/70 mb-4">Get exclusive drops and vintage finds</p>
-              <div className="flex gap-2">
+              <h4 className="text-pure-white font-bold text-lg mb-8">Newsletter</h4>
+              <p className="text-silver mb-6">Get exclusive drops and vintage finds</p>
+              <div className="flex gap-3">
                 <Input 
                   placeholder="Your email" 
-                  className="bg-pearl/10 border-pearl/20 text-pearl placeholder:text-pearl/50"
+                  className="bg-steel-gray/50 border-steel-gray text-pure-white placeholder:text-silver"
                 />
-                <Button className="bg-mars-red hover:bg-mars-red/90 px-6">
+                <Button className="bg-gradient-to-r from-mars-red to-amber px-8">
                   Join
                 </Button>
               </div>
             </div>
           </div>
           
-          <div className="border-t border-pearl/10 mt-12 pt-8 text-center">
-            <p className="text-pearl/60 text-sm">
+          <div className="border-t border-steel-gray/20 mt-16 pt-8 text-center">
+            <p className="text-silver text-sm">
               © 2024 Adam's Kustom Badges. All rights reserved. | 
-              <span className="text-pearl/40"> Not affiliated with Volkswagen AG. Product names used for fitment compatibility only.</span>
+              <span className="text-steel-gray"> Not affiliated with Volkswagen AG. Product names used for fitment compatibility only.</span>
             </p>
           </div>
         </div>
