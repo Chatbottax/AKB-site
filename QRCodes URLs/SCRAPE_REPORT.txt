@@ -1,0 +1,7 @@
+Start URL: https://acbadgez.com/
+Visited pages: 267
+Pages with images: 267
+Unique images: 197
+CSV: D:\!!!Ahmeds Store\MAIN\QRCodes URLs\acbadgez_scrape.csv
+QR (image URLs): D:\!!!Ahmeds Store\MAIN\QRCodes URLs\qr_image_urls
+QR (page URLs):  D:\!!!Ahmeds Store\MAIN\QRCodes URLs\qr_page_urls
