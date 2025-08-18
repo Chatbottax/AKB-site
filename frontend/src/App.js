@@ -1,69 +1,55 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import { Button } from './components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from './components/ui/card';
 import { Badge } from './components/ui/badge';
 import { Input } from './components/ui/input';
-import { Heart, ShoppingCart, Star, ArrowRight, Zap, Shield, Award, Search, Menu, User } from 'lucide-react';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './components/ui/select';
+import { Heart, ShoppingCart, Star, ArrowRight, Zap, Shield, Award, Search, Menu, User, Filter } from 'lucide-react';
 
 export default function App() {
+  const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [cartItems, setCartItems] = useState(0);
   const [favorites, setFavorites] = useState(new Set());
+  const [loading, setLoading] = useState(true);
+  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [searchQuery, setSearchQuery] = useState('');
 
-  const featuredProducts = [
-    {
-      id: 1,
-      name: "Wolfsburg Classic Badge",
-      designName: "Heritage",
-      colorName: "Mars Red",
-      price: 45.99,
-      originalPrice: 59.99,
-      image: "https://images.unsplash.com/photo-1627913434632-b4717be3485a",
-      rating: 4.9,
-      reviews: 127,
-      badge: "Bestseller",
-      inStock: true
-    },
-    {
-      id: 2,
-      name: "Eagle Shift Knob",
-      designName: "Racing",
-      colorName: "Matte Black",
-      price: 89.99,
-      originalPrice: 110.99,
-      image: "https://images.unsplash.com/photo-1557245526-45dc0f1a8745",
-      rating: 4.8,
-      reviews: 89,
-      badge: "Limited",
-      inStock: true
-    },
-    {
-      id: 3,
-      name: "Vintage Dash Knob",
-      designName: "Classic",
-      colorName: "Pearl White",
-      price: 34.99,
-      originalPrice: 44.99,
-      image: "https://images.unsplash.com/photo-1618178325258-a123dc15f610",
-      rating: 5.0,
-      reviews: 203,
-      badge: "Top Rated",
-      inStock: true
-    },
-    {
-      id: 4,
-      name: "Custom Badge Set",
-      designName: "Personalized",
-      colorName: "Racing Green",
-      price: 129.99,
-      originalPrice: 159.99,
-      image: "https://images.pexels.com/photos/20430140/pexels-photo-20430140.jpeg",
-      rating: 4.9,
-      reviews: 156,
-      badge: "Custom",
-      inStock: true
+  const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8001';
+
+  // Fetch products from API
+  useEffect(() => {
+    fetchProducts();
+    fetchCategories();
+  }, [selectedCategory, searchQuery]);
+
+  const fetchProducts = async () => {
+    try {
+      setLoading(true);
+      const params = new URLSearchParams();
+      if (selectedCategory !== 'all') params.append('category', selectedCategory);
+      if (searchQuery) params.append('search', searchQuery);
+      
+      const response = await fetch(`${BACKEND_URL}/api/products?${params}`);
+      const data = await response.json();
+      setProducts(data);
+    } catch (error) {
+      console.error('Error fetching products:', error);
+    } finally {
+      setLoading(false);
     }
-  ];
+  };
+
+  const fetchCategories = async () => {
+    try {
+      const response = await fetch(`${BACKEND_URL}/api/categories`);
+      const data = await response.json();
+      setCategories(data.categories || []);
+    } catch (error) {
+      console.error('Error fetching categories:', error);
+    }
+  };
 
   const toggleFavorite = (id) => {
     const newFavorites = new Set(favorites);
@@ -75,8 +61,43 @@ export default function App() {
     setFavorites(newFavorites);
   };
 
-  const addToCart = () => {
-    setCartItems(cartItems + 1);
+  const addToCart = async (productId) => {
+    try {
+      const response = await fetch(`${BACKEND_URL}/api/cart/add`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          product_id: productId,
+          quantity: 1
+        })
+      });
+      
+      if (response.ok) {
+        setCartItems(cartItems + 1);
+        // You could add a toast notification here
+      }
+    } catch (error) {
+      console.error('Error adding to cart:', error);
+    }
+  };
+
+  const getBadgeStyle = (category) => {
+    const styles = {
+      'Hood Badges': 'bg-mars-red text-pearl',
+      'Shift Knobs': 'bg-racing-green text-pearl', 
+      'Hood Crests': 'bg-warm-beige text-navy',
+      'Horn Grills': 'bg-navy text-pearl'
+    };
+    return styles[category] || 'bg-matte-black text-pearl';
+  };
+
+  const getStockStatus = (stock) => {
+    if (stock === -1) return { text: 'In Stock', color: 'text-racing-green' };
+    if (stock > 10) return { text: 'In Stock', color: 'text-racing-green' };
+    if (stock > 0) return { text: `Only ${stock} left`, color: 'text-warm-beige' };
+    return { text: 'Out of Stock', color: 'text-mars-red' };
   };
 
   return (
@@ -147,20 +168,20 @@ export default function App() {
               </Badge>
               
               <h1 className="text-5xl lg:text-7xl font-bold text-pearl mb-6 leading-tight">
-                Kustom 
-                <span className="block text-mars-red italic">Beetle</span>
+                Authentic 
+                <span className="block text-mars-red italic">VW Beetle</span>
                 <span className="block text-4xl lg:text-5xl">Badges</span>
               </h1>
               
               <p className="text-xl text-pearl/90 mb-8 leading-relaxed max-w-lg">
-                Transform your classic ride with premium, handcrafted badges that embody the spirit of the golden era. Every detail matters.
+                Discover {products.length}+ handcrafted badges and accessories for your classic Volkswagen Beetle. Premium quality, authentic designs.
               </p>
               
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                 <Button 
                   size="lg" 
                   className="bg-mars-red hover:bg-mars-red/90 text-pearl px-8 py-4 text-lg font-bold tracking-wide transition-all duration-300 hover:scale-105 shadow-2xl"
-                  onClick={addToCart}
+                  onClick={() => document.getElementById('products').scrollIntoView({ behavior: 'smooth' })}
                 >
                   Shop Collection <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
@@ -201,8 +222,8 @@ export default function App() {
               <div className="w-16 h-16 bg-racing-green/20 rounded-full flex items-center justify-center mb-4">
                 <Shield className="h-8 w-8 text-racing-green" />
               </div>
-              <h3 className="text-pearl font-bold text-lg mb-2">Lifetime Warranty</h3>
-              <p className="text-pearl/70 text-sm">Built to last forever</p>
+              <h3 className="text-pearl font-bold text-lg mb-2">Authentic Fit</h3>
+              <p className="text-pearl/70 text-sm">Fits like original VW parts</p>
             </div>
             <div className="flex flex-col items-center">
               <div className="w-16 h-16 bg-warm-beige/20 rounded-full flex items-center justify-center mb-4">
@@ -216,108 +237,157 @@ export default function App() {
                 <Star className="h-8 w-8 text-mars-red" />
               </div>
               <h3 className="text-pearl font-bold text-lg mb-2">5,000+ Reviews</h3>
-              <p className="text-pearl/70 text-sm">4.9/5 customer rating</p>
+              <p className="text-pearl/70 text-sm">4.8/5 customer rating</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Featured Products */}
-      <section className="relative z-10 py-24 bg-gradient-to-b from-pearl to-warm-beige">
+      {/* Product Catalog */}
+      <section id="products" className="relative z-10 py-24 bg-gradient-to-b from-pearl to-warm-beige">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
             <Badge className="mb-4 bg-navy/10 text-navy border-navy/20 px-4 py-2 font-bold tracking-wide uppercase">
-              Featured Collection
+              Our Complete Collection
             </Badge>
             <h2 className="text-4xl lg:text-5xl font-bold text-navy mb-6">
-              Legendary 
-              <span className="text-mars-red italic">Classics</span>
+              Premium VW Beetle 
+              <span className="text-mars-red italic"> Badges</span>
             </h2>
-            <p className="text-xl text-navy/70 max-w-2xl mx-auto">
-              Discover our most sought-after badges, crafted for the true enthusiast who demands perfection.
+            <p className="text-xl text-navy/70 max-w-2xl mx-auto mb-8">
+              Authentic badges, shift knobs, and accessories crafted for the true VW enthusiast.
             </p>
+
+            {/* Search and Filter */}
+            <div className="flex flex-col md:flex-row gap-4 justify-center items-center max-w-2xl mx-auto">
+              <div className="relative flex-1 w-full">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-navy/50 h-5 w-5" />
+                <Input
+                  placeholder="Search products..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-10 bg-white border-navy/20 text-navy placeholder:text-navy/50"
+                />
+              </div>
+              <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+                <SelectTrigger className="w-full md:w-48 bg-white border-navy/20 text-navy">
+                  <Filter className="h-4 w-4 mr-2" />
+                  <SelectValue placeholder="All Categories" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Categories</SelectItem>
+                  {categories.map(category => (
+                    <SelectItem key={category} value={category}>{category}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {featuredProducts.map((product) => (
-              <Card key={product.id} className="group bg-white/80 backdrop-blur-sm border-0 shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-105 overflow-hidden">
-                <div className="relative overflow-hidden">
-                  <img 
-                    src={product.image} 
-                    alt={`${product.name} - ${product.designName} - ${product.colorName}`}
-                    className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-700"
-                  />
-                  <div className="absolute top-4 left-4">
-                    <Badge className={`
-                      px-3 py-1 text-xs font-bold tracking-wide uppercase
-                      ${product.badge === 'Bestseller' ? 'bg-mars-red text-pearl' : 
-                        product.badge === 'Limited' ? 'bg-racing-green text-pearl' :
-                        product.badge === 'Top Rated' ? 'bg-warm-beige text-navy' :
-                        'bg-navy text-pearl'}
-                    `}>
-                      {product.badge}
-                    </Badge>
-                  </div>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="absolute top-4 right-4 text-pearl hover:text-mars-red transition-colors duration-300"
-                    onClick={() => toggleFavorite(product.id)}
-                  >
-                    <Heart className={`h-5 w-5 ${favorites.has(product.id) ? 'fill-current text-mars-red' : ''}`} />
-                  </Button>
-                </div>
-                
-                <CardHeader className="pb-2">
-                  <div className="flex items-center justify-between mb-2">
-                    <div className="flex items-center space-x-1">
-                      {[...Array(5)].map((_, i) => (
-                        <Star 
-                          key={i} 
-                          className={`h-4 w-4 ${i < Math.floor(product.rating) ? 'text-warm-beige fill-current' : 'text-gray-300'}`} 
-                        />
-                      ))}
-                      <span className="text-sm text-navy/70 ml-2">({product.reviews})</span>
+          {/* Products Grid */}
+          {loading ? (
+            <div className="text-center py-16">
+              <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-navy"></div>
+              <p className="text-navy/70 mt-4">Loading products...</p>
+            </div>
+          ) : products.length === 0 ? (
+            <div className="text-center py-16">
+              <p className="text-navy/70 text-lg">No products found matching your criteria.</p>
+            </div>
+          ) : (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+              {products.map((product) => {
+                const stockStatus = getStockStatus(product.stock);
+                return (
+                  <Card key={product.id} className="group bg-white/80 backdrop-blur-sm border-0 shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-105 overflow-hidden">
+                    <div className="relative overflow-hidden">
+                      <img 
+                        src={`${BACKEND_URL}${product.image}`}
+                        alt={product.name}
+                        className="w-full h-64 object-contain bg-gray-50 group-hover:scale-110 transition-transform duration-700 p-4"
+                        onError={(e) => {
+                          e.target.style.display = 'none';
+                          e.target.parentElement.innerHTML = '<div class="w-full h-64 bg-gray-100 flex items-center justify-center text-gray-400">Image not available</div>';
+                        }}
+                      />
+                      <div className="absolute top-4 left-4">
+                        <Badge className={`px-3 py-1 text-xs font-bold tracking-wide uppercase ${getBadgeStyle(product.category)}`}>
+                          {product.category}
+                        </Badge>
+                      </div>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="absolute top-4 right-4 text-matte-black hover:text-mars-red transition-colors duration-300"
+                        onClick={() => toggleFavorite(product.id)}
+                      >
+                        <Heart className={`h-5 w-5 ${favorites.has(product.id) ? 'fill-current text-mars-red' : ''}`} />
+                      </Button>
                     </div>
-                  </div>
-                  <CardTitle className="text-lg font-bold text-navy group-hover:text-mars-red transition-colors duration-300">
-                    {product.name}
-                  </CardTitle>
-                  <p className="text-sm text-navy/70">{product.designName} • {product.colorName}</p>
-                </CardHeader>
-                
-                <CardContent className="pt-0">
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center space-x-2">
-                      <span className="text-2xl font-bold text-navy">${product.price}</span>
-                      <span className="text-lg text-navy/50 line-through">${product.originalPrice}</span>
-                    </div>
-                    <Badge className="bg-mars-red/10 text-mars-red text-xs">
-                      Save ${(product.originalPrice - product.price).toFixed(2)}
-                    </Badge>
-                  </div>
-                  
-                  <Button 
-                    className="w-full bg-navy hover:bg-mars-red text-pearl font-bold py-3 transition-all duration-300 hover:scale-105 shadow-lg"
-                    onClick={addToCart}
-                  >
-                    Add to Cart
-                    <ShoppingCart className="ml-2 h-4 w-4" />
-                  </Button>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+                    
+                    <CardHeader className="pb-2">
+                      <div className="flex items-center justify-between mb-2">
+                        <div className="flex items-center space-x-1">
+                          {[...Array(5)].map((_, i) => (
+                            <Star 
+                              key={i} 
+                              className={`h-4 w-4 ${i < Math.floor(product.rating) ? 'text-warm-beige fill-current' : 'text-gray-300'}`} 
+                            />
+                          ))}
+                          <span className="text-sm text-navy/70 ml-2">({product.reviews})</span>
+                        </div>
+                      </div>
+                      <CardTitle className="text-lg font-bold text-navy group-hover:text-mars-red transition-colors duration-300 line-clamp-2">
+                        {product.name}
+                      </CardTitle>
+                      <p className="text-sm text-navy/70 line-clamp-2">{product.description}</p>
+                      <p className={`text-sm font-medium ${stockStatus.color}`}>
+                        {stockStatus.text}
+                      </p>
+                    </CardHeader>
+                    
+                    <CardContent className="pt-0">
+                      <div className="flex items-center justify-between mb-4">
+                        <div className="flex items-center space-x-2">
+                          <span className="text-2xl font-bold text-navy">${product.price}</span>
+                          {product.original_price && (
+                            <>
+                              <span className="text-lg text-navy/50 line-through">${product.original_price}</span>
+                              <Badge className="bg-mars-red/10 text-mars-red text-xs">
+                                Save ${(product.original_price - product.price).toFixed(2)}
+                              </Badge>
+                            </>
+                          )}
+                        </div>
+                      </div>
+                      
+                      <Button 
+                        className="w-full bg-navy hover:bg-mars-red text-pearl font-bold py-3 transition-all duration-300 hover:scale-105 shadow-lg"
+                        onClick={() => addToCart(product.id)}
+                        disabled={product.stock === 0}
+                      >
+                        {product.stock === 0 ? 'Out of Stock' : 'Add to Cart'}
+                        {product.stock !== 0 && <ShoppingCart className="ml-2 h-4 w-4" />}
+                      </Button>
+                    </CardContent>
+                  </Card>
+                );
+              })}
+            </div>
+          )}
 
-          <div className="text-center mt-12">
-            <Button 
-              size="lg" 
-              variant="outline" 
-              className="border-navy text-navy hover:bg-navy hover:text-pearl px-8 py-4 text-lg font-bold tracking-wide transition-all duration-300"
-            >
-              View All Products <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
-          </div>
+          {products.length > 0 && (
+            <div className="text-center mt-12">
+              <p className="text-navy/70 mb-4">Showing {products.length} products</p>
+              <Button 
+                variant="outline" 
+                className="border-navy text-navy hover:bg-navy hover:text-pearl px-8 py-4 text-lg font-bold tracking-wide transition-all duration-300"
+                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              >
+                Back to Top <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+            </div>
+          )}
         </div>
       </section>
 
@@ -333,26 +403,26 @@ export default function App() {
         
         <div className="relative z-20 container mx-auto px-6 text-center">
           <Badge className="mb-6 bg-mars-red/20 text-mars-red border-mars-red/30 px-6 py-3 text-lg font-bold tracking-wide uppercase">
-            Limited Time
+            Ready to Transform Your Beetle?
           </Badge>
           
           <h2 className="text-4xl lg:text-6xl font-bold text-pearl mb-8 leading-tight">
-            Your Dream Badge
+            Your Perfect Badge
             <span className="block text-mars-red italic">Awaits</span>
           </h2>
           
           <p className="text-xl text-pearl/90 mb-12 max-w-3xl mx-auto leading-relaxed">
-            Join thousands of Beetle enthusiasts who've transformed their rides with our legendary badges. 
-            Every purchase comes with our lifetime craftsmanship guarantee.
+            Join thousands of VW Beetle enthusiasts who've transformed their rides with our authentic badges. 
+            Premium quality, perfect fit, legendary craftsmanship.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
             <Button 
               size="lg" 
               className="bg-mars-red hover:bg-mars-red/90 text-pearl px-12 py-6 text-xl font-bold tracking-wide transition-all duration-300 hover:scale-110 shadow-2xl"
-              onClick={addToCart}
+              onClick={() => document.getElementById('products').scrollIntoView({ behavior: 'smooth' })}
             >
-              Start Your Journey
+              Browse Collection
               <ArrowRight className="ml-3 h-6 w-6" />
             </Button>
             
@@ -386,22 +456,25 @@ export default function App() {
                 </div>
               </div>
               <p className="text-pearl/70 mb-6 leading-relaxed">
-                Crafting premium badges for Volkswagen Beetle enthusiasts who demand perfection.
+                Crafting premium badges for Volkswagen Beetle enthusiasts who demand authenticity and quality.
               </p>
-              <div className="flex space-x-4">
-                <Button variant="ghost" size="sm" className="text-pearl/70 hover:text-mars-red">F</Button>
-                <Button variant="ghost" size="sm" className="text-pearl/70 hover:text-mars-red">T</Button>
-                <Button variant="ghost" size="sm" className="text-pearl/70 hover:text-mars-red">I</Button>
-              </div>
             </div>
             
             <div>
-              <h4 className="text-pearl font-bold text-lg mb-6">Shop</h4>
+              <h4 className="text-pearl font-bold text-lg mb-6">Categories</h4>
               <div className="space-y-3">
-                <a href="#" className="block text-pearl/70 hover:text-mars-red transition-colors">All Products</a>
-                <a href="#" className="block text-pearl/70 hover:text-mars-red transition-colors">Wolfsburg Collection</a>
-                <a href="#" className="block text-pearl/70 hover:text-mars-red transition-colors">Eagle Series</a>
-                <a href="#" className="block text-pearl/70 hover:text-mars-red transition-colors">Custom Badges</a>
+                {categories.slice(0, 4).map(category => (
+                  <button 
+                    key={category}
+                    onClick={() => {
+                      setSelectedCategory(category);
+                      document.getElementById('products').scrollIntoView({ behavior: 'smooth' });
+                    }}
+                    className="block text-pearl/70 hover:text-mars-red transition-colors text-left"
+                  >
+                    {category}
+                  </button>
+                ))}
               </div>
             </div>
             
