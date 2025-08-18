@@ -344,20 +344,18 @@ REAL_PRODUCTS = [
 async def startup_event():
     """Initialize the database with real products"""
     try:
-        # Check if products already exist
-        existing_count = await db.products.count_documents({})
-        if existing_count == 0:
-            # Insert real products
-            products_to_insert = []
-            for product_data in REAL_PRODUCTS:
-                product = Product(**product_data)
-                products_to_insert.append(product.dict())
-            
-            if products_to_insert:
-                await db.products.insert_many(products_to_insert)
-                print(f"✅ Inserted {len(products_to_insert)} real products")
-        else:
-            print(f"✅ Database already has {existing_count} products")
+        # Drop existing products to reload with correct image paths
+        await db.products.drop()
+        
+        # Insert real products with correct image paths
+        products_to_insert = []
+        for product_data in REAL_PRODUCTS:
+            product = Product(**product_data)
+            products_to_insert.append(product.dict())
+        
+        if products_to_insert:
+            await db.products.insert_many(products_to_insert)
+            print(f"✅ Inserted {len(products_to_insert)} real products with correct image paths")
             
     except Exception as e:
         print(f"❌ Database initialization error: {e}")
