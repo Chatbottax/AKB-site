@@ -66,8 +66,8 @@ REAL_PRODUCTS = [
         "price": 39.99,
         "stock": -1,  # Special case for unlimited stock
         "category": "Hood Badges",
-        "image": "/images/r0002.png",
-        "images": ["/images/r0002.png"],
+        "image": "/r0002.png",
+        "images": ["/r0002.png"],
         "tags": ["German", "Eagle", "Hood Badge", "90mm", "1956-1976"],
         "rating": 4.9,
         "reviews": 156,
