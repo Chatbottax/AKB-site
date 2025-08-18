@@ -302,7 +302,7 @@ export default function App() {
                   <Card key={product.id} className="group bg-white/80 backdrop-blur-sm border-0 shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-105 overflow-hidden">
                     <div className="relative overflow-hidden">
                       <img 
-                        src={`${BACKEND_URL}${product.image}`}
+                        src={product.image}
                         alt={product.name}
                         className="w-full h-64 object-contain bg-gray-50 group-hover:scale-110 transition-transform duration-700 p-4"
                         onError={(e) => {
